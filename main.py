@@ -70,68 +70,69 @@ class User(object):
 
 
 
-    def map_eccentricity_to_trait(eccentricity):
-        if eccentricity == 0:
+    def map_eccentricity_to_trait(self):
+        if self.eccentricity == 0:
             return "are perfectly stable"
-        elif 0 < eccentricity < 0.3:
+        elif 0 < self.eccentricity < 0.3:
             return "prefer stability"
-        elif 0.3 <= eccentricity < 0.6:
+        elif 0.3 <= self.eccentricity < 0.6:
             return "are balanced"
-        elif 0.6 <= eccentricity < 0.9:
+        elif 0.6 <= self.eccentricity < 0.9:
             return "prefer excitement"
         else:
             return "embrace change"
 
-    def map_semimajor_axis_to_trait(semimajor_axis):
-        if semimajor_axis < 0.1:
+    def map_semimajor_axis_to_trait(self):
+        if self.semimajor_axis < 0.1:
             return "are 'close to the action' and constantly influenced by your star's energy, suggesting a very outgoing and active nature"
-        elif 0.1 <= semimajor_axis < 1:
+        elif 0.1 <= self.semimajor_axis < 1:
             return "are still within a region of significant stellar influence, indicating a generally social and engaging character"
-        elif 1 <= semimajor_axis < 5:
+        elif 1 <= self.semimajor_axis < 5:
             return "strike a balance between the inner and outer regions, reflecting a well-rounded personality that is equally comfortable in social situations and solitude"
-        elif 5 <= semimajor_axis < 30:
+        elif 5 <= self.semimajor_axis < 30:
             return "are farther from the star, implying a more reserved and introspective nature, preferring less direct interaction"
         else:
             return "are on the outskirts, indicating a highly introspective and solitary disposition, thriving in their own space away from the hustle and bustle"
 
-    def map_orbital_period_to_trait(orbital_period):
-        if orbital_period < 10:
+    def map_orbital_period_to_trait(self):
+        if self.period < 10:
             return "rapid orbits suggest a fast-paced and reactive thinking style"
-        elif 10 <= orbital_period < 100:
+        elif 10 <= self.period < 100:
             return "orbits allow for rapid changes and adaptation, indicating an active and adaptive thinking style"
-        elif 100 <= orbital_period < 365:
+        elif 100 <= self.period < 365:
             return "orbital periods tend to experience balanced conditions, suggesting a balanced and analytical thinking style"
-        elif 365 <= orbital_period < 3650:
+        elif 365 <= self.period < 3650:
             return "planets take longer to orbit their stars, implying a more deliberate and thoughtful approach"
         else:
             return "very long orbital periods embody a reflective and contemplative thinking style"
 
-    def map_stellar_mass_to_trait(stellar_mass):
-        if stellar_mass < 0.5:
+    def map_stellar_mass_to_trait(self):
+        if self.stellar_mass < 0.5:
             return "stable and enduring"
-        elif 0.5 <= stellar_mass < 1.5:
+        elif 0.5 <= self.stellar_mass < 1.5:
             return "balanced and nurturing"
-        elif 1.5 <= stellar_mass < 3:
+        elif 1.5 <= self.stellar_mass < 3:
             return "dynamic and charismatic"
         else:
             return "intense and transformative"
         
     def get_horoscope(self):
+        self.planet = self.closest_object_nasa_table['pl_name'][0]
         self.star = self.closest_object_nasa_table['hostname'][0]
         self.eccentricity = np.nanmean(self.closest_object_nasa_table["pl_orbeccen"])
-        self.semi_major_axis = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbsmax"].value))
+        self.semimajor_axis = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbsmax"].value))
         self.period = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbper"].value))
         self.stellar_mass = np.nanmean(np.asarray(self.closest_object_nasa_table["st_mass"].value))
-        eccentricity_trait = map_eccentricity_to_trait(self.eccentricity)
-        axis_trait = map_semimajor_axis_to_trait(self.semi_major_axis)
-        period_trait = map_orbital_period_to_trait(self.period)
-        stellar_mass_trait = map_stellar_mass_to_trait(self.stellar_mass)
+        eccentricity_trait = self.map_eccentricity_to_trait()
+        axis_trait = self.map_semimajor_axis_to_trait()
+        period_trait = self.map_orbital_period_to_trait()
+        stellar_mass_trait = self.map_stellar_mass_to_trait()
 
-        message = (f"{self.user}, your birth exoplanet is {name} orbiting star {star}. "
-                f"Based on an eccentricity of {eccentricity:.2f}, you {eccentricity_trait}. "
-                f"With an orbit semi-major axis of {semi_major_axis:.2f} AU, you {axis_trait}. "
-                f"With a birth exoplanet period of {period:.2f} days, these {period_trait}, "
-                f"and with a stellar mass of {stellar_mass:.2f} solar masses, you are {stellar_mass_trait}.")
+        message = (f"{self.user}, your birth exoplanet is {self.planet} orbiting star {self.star}. "
+                f"Based on an eccentricity of {self.eccentricity:.2f}, you {self.map_eccentricity_to_trait()}. "
+                f"With an orbit semi-major axis of {self.semimajor_axis:.2f} AU, you {self.map_semimajor_axis_to_trait()}. "
+                f"With a birth exoplanet period of {self.period:.2f} days, these {self.map_orbital_period_to_trait()}, "
+                f"and with a stellar mass of {self.stellar_mass:.2f} solar masses, you are {self.map_stellar_mass_to_trait()}.")
         return message
 
 #chelsea = User("Chelsea", "Redlands California", 1991, 4, 27, 12, 4, 0).get_horoscope()

@@ -6,11 +6,11 @@ from geopy import geocoders
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
-    def birth_ra_dec(citystate):
+    def birth_lat_log(citystate):
     geolocator = Nominatim(user_agent='moeur')
     location = geolocator.geocode(citystate)
-    birth_ra, birth_dec = location[1][0], location[1][1]
-    return birth_ra, birth_dec
+    birth_lat, birth_log = location[1][0], location[1][1]
+    return birth_lat, birth_log
 
 class User(object):
     """

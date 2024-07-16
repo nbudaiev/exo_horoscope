@@ -2,8 +2,15 @@
 from astropy.time import Time
 from astropy.coordinates import EarthLocation, AltAz, SkyCoord
 import astropy.units as u
+from geopy import geocoders  
+from geopy.geocoders import Nominatim
+from datetime import datetime
 
-
+    def birth_ra_dec(citystate):
+    geolocator = Nominatim(user_agent='moeur')
+    location = geolocator.geocode(citystate)
+    birth_ra, birth_dec = location[1][0], location[1][1]
+    return birth_ra, birth_dec
 
 class User(object):
     """
@@ -29,13 +36,12 @@ class User(object):
         self.time = time
 
 
-
     def get_zenith(self):
         """
         Get zenith coordinates
         """
 
-        location = EarthLocation(lat=slef.latitude, lon=self.longitude)
+        location = EarthLocation(lat=self.latitude, lon=self.longitude)
         zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=time, location=location))
         zenith_radec = zenith.transform_to('icrs')
 

@@ -46,17 +46,17 @@ class User(object):
         This method finds the Nasa Exoplanet Archive table of the object which transits nearest birth zenith of the user.
 
         Args:
-        name (str): Name of User
-        citystate (str): City and State of birth in the form: 'City State'
-        year (int): Birthyear of User
-        month (int): Birthmonth of User
-        day (int): Birthday of User
-        hour (int): Birthhour of User
-        minute (int): Birthminute of User
-        second (int): Birthsecond of User
+            user (str): Name of User in the form 'User'
+            citystate (str): City and State of birth in the form: 'City State'
+            year (int): Birthyear of User
+            month (int): Birthmonth of User
+            day (int): Birthday of User
+            hour (int): Birthhour of User
+            minute (int): Birthminute of User
+            second (int): Birthsecond of User
 
         Returns:
-        astropy.table.table.QTable: table of closest object to birth zenith
+            astropy.table.table.QTable: table of closest object to birth zenith
         '''
             
         geolocator = Nominatim(user_agent='moeur')

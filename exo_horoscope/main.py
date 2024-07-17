@@ -40,6 +40,24 @@ class User(object):
         self.closest_object_nasa_table = self.get_closest_table()
 
     def get_closest_table(self):
+        '''
+        Get table of closest object
+
+        This method finds the Nasa Exoplanet Archive table of the object which transits nearest birth zenith of the user.
+
+        Args:
+        name (str): Name of User
+        citystate (str): City and State of birth in the form: 'City State'
+        year (int): Birthyear of User
+        month (int): Birthmonth of User
+        day (int): Birthday of User
+        hour (int): Birthhour of User
+        minute (int): Birthminute of User
+        second (int): Birthsecond of User
+
+        Returns:
+        astropy.table.table.QTable: table of closest object to birth zenith
+        '''
             
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
@@ -56,7 +74,6 @@ class User(object):
         closest_table = NasaExoplanetArchive.query_object(closest_object['pl_name'])
         return closest_table
         
-
     def get_zenith(self):
        """
        Get zenith coordinates

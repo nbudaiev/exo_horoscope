@@ -4,7 +4,6 @@ from astropy.coordinates import EarthLocation, AltAz, SkyCoord
 import astropy.units as u
 from geopy import geocoders  
 from geopy.geocoders import Nominatim
-from datetime import datetime
 import numpy as np
 
 exoplanets_table = NasaExoplanetArchive.query_criteria(table="pscomppars", select="*")
@@ -40,6 +39,36 @@ class User(object):
 
         if year<=0:
             raise ValueError("Year must be a positive integer.")
+        
+        if not isinstance(month, int):
+            raise TypeError("Month must be an integer.")
+        if month<=0 or month>12:
+            raise ValueError("Month must be an integer between 1 and 12.")
+        
+        if not isinstance(day, int):
+            raise TypeError("Day must be an integer.")
+        if day<=0 or day>31:
+            raise ValueError("Day must be an integer between 1 and 31.")
+        
+        if not isinstance(hour, int):
+            raise TypeError("Hour must be an integer.")
+        if hour<0 or hour>23:
+            raise ValueError("Hour must be an integer between 0 and 23.")
+        
+        if not isinstance(minute, int):
+            raise TypeError("Minute must be an integer.")
+        if minute<0 or minute>59:
+            raise ValueError("Minute must be an integer between 0 and 59.")
+        
+        if not isinstance(second, (int, float)):
+            raise TypeError("Second must be a float or an integer.")
+        if second < 0 or second >= 60:
+            raise ValueError("Second must be a float or an integer between 0 and 60.")
+            raise TypeError("Second must be a float.")
+        if second<0 or second>=60:
+            raise ValueError("Second must be a float between 0 and 60.")
+
+        
 
         self.user = user
 
@@ -79,9 +108,8 @@ class User(object):
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
-        zen_ra, zen_dec = self.get_zenith()
         table = exoplanets_table
-        coords = SkyCoord(zen_ra, zen_dec, unit=(u.deg, u.deg))
+        coords = self.get_zenith()
         stars_coords = SkyCoord(table['ra'], table['dec'], unit=(u.deg, u.deg))
         distances = coords.separation(stars_coords)
         closest_index = distances.argmin()
@@ -93,16 +121,16 @@ class User(object):
         """
         Compute birth zenith
 
-        This method takes latitude and longitude coordinates of the user's birth city and computes from it ra and dec coordinates of the birth zenith.
+        This method takes latitude and longitude coordinates of the user's birth city and time of birth and calculates the celestial coordinates of the zenith.
         
         Returns:
-            tuple: (astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)
+            astropy.coordinates.sky_coordinate.SkyCoord: celestial coordinates of the zenith.
         """
         location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
         zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
         zenith_radec = zenith.transform_to('icrs')
 
-        return zenith_radec.ra, zenith_radec.dec
+        return zenith_radec
 
 
 
@@ -113,7 +141,7 @@ class User(object):
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital eccentricity.
 
         Returns:
-            string: the personality trait
+            str: the personality trait
         '''
         if self.eccentricity == np.nan:
             return ""
@@ -135,7 +163,7 @@ class User(object):
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital semimajor axis.
 
         Returns:
-            string: the personality trait
+            str: the personality trait
         '''
         if self.semimajor_axis == np.nan:
             return ""

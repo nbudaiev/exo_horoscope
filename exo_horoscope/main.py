@@ -19,15 +19,25 @@ class User(object):
     def __init__(self, user, citystate, year, month, day, hour, minute, second):
         """
         Args:
-        user (str): User's name in the form 'User'
-        citystate (str): City and State of birth in the form: 'City State' / 'City Country'
-        year (int): Birthyear of User
-        month (int): Birthmonth of User
-        day (int): Birthday of User
-        hour (int): Birthhour of User
-        minute (int): Birthminute of User
-        second (int): Birthsecond of User
+            user (str): User's name in the form 'User'
+            citystate (str): City and State of birth in the form: 'City State' / 'City Country'
+            year (int): Birthyear of User
+            month (int): Birthmonth of User
+            day (int): Birthday of User
+            hour (int): Birthhour of User
+            minute (int): Birthminute of User
+            second (int): Birthsecond of User
         """
+
+        if not isinstance(user, str):
+            raise TypeError("User name must be a string.")
+
+        if not isinstance(citystate, str):
+            raise TypeError("City State / City Country must be a string.")
+
+        if not isinstance(year, int):
+            raise TypeError("Year must be an integer.")
+
         self.user = user
 
         self.citystate = citystate
@@ -62,6 +72,7 @@ class User(object):
             astropy.table.table.QTable: table of closest object to birth zenith
         '''
             
+
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
         date_time = datetime(self.year, self.month, self.day, self.hour, self.minute, self.second)

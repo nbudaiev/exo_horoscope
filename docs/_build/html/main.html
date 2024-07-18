@@ -49,7 +49,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Main Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#main.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.get_closest_table"><code class="docutils literal notranslate"><span class="pre">User.get_closest_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.get_horoscope"><code class="docutils literal notranslate"><span class="pre">User.get_horoscope()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.get_zenith"><code class="docutils literal notranslate"><span class="pre">User.get_zenith()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_eccentricity_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_eccentricity_to_trait()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_orbital_period_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_orbital_period_to_trait()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_semimajor_axis_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_semimajor_axis_to_trait()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_stellar_mass_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_stellar_mass_to_trait()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -95,7 +100,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>user</strong> (<em>str</em>) – Name of User in the form ‘User’</p></li>
 <li><p><strong>citystate</strong> (<em>str</em>) – City and State of birth in the form: ‘City State’</p></li>
 <li><p><strong>year</strong> (<em>int</em>) – Birthyear of User</p></li>
 <li><p><strong>month</strong> (<em>int</em>) – Birthmonth of User</p></li>
@@ -115,9 +119,90 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="main.User.get_horoscope">
+<span class="sig-name descname"><span class="pre">get_horoscope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.get_horoscope" title="Permalink to this definition"></a></dt>
+<dd><p>User class method to get the User’s horoscope based on User’s attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The horoscope message for the User.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="main.User.get_zenith">
 <span class="sig-name descname"><span class="pre">get_zenith</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.get_zenith" title="Permalink to this definition"></a></dt>
-<dd><p>Get zenith coordinates</p>
+<dd><p>Compute birth zenith</p>
+<p>This method takes latitude and longitude coordinates of the user’s birth city and computes from it ra and dec coordinates of the birth zenith.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_eccentricity_to_trait">
+<span class="sig-name descname"><span class="pre">map_eccentricity_to_trait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_eccentricity_to_trait" title="Permalink to this definition"></a></dt>
+<dd><p>Map orbital eccentricity to personality trait</p>
+<p>This method assigns a personality trait to the user based on the value of their birth exoplanet’s orbital eccentricity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the personality trait</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_orbital_period_to_trait">
+<span class="sig-name descname"><span class="pre">map_orbital_period_to_trait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_orbital_period_to_trait" title="Permalink to this definition"></a></dt>
+<dd><p>Map exoplanet system’s orbital period to a personality trait (thinking style).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The personality trait text message.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_semimajor_axis_to_trait">
+<span class="sig-name descname"><span class="pre">map_semimajor_axis_to_trait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_semimajor_axis_to_trait" title="Permalink to this definition"></a></dt>
+<dd><p>Map orbital semimajor axis to personality trait</p>
+<p>This method assigns a personality trait to the user based on the value of their birth exoplanet’s orbital semimajor axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the personality trait</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_stellar_mass_to_trait">
+<span class="sig-name descname"><span class="pre">map_stellar_mass_to_trait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_stellar_mass_to_trait" title="Permalink to this definition"></a></dt>
+<dd><p>Map exoplanet system’s stellar mass to a personality trait.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The personality trait based on the stellar mass.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

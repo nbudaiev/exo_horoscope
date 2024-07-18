@@ -26,7 +26,7 @@ class User(object):
             day (int): Birthday of User
             hour (int): Birthhour of User
             minute (int): Birthminute of User
-            second (int): Birthsecond of User
+            second (float): Birthsecond of User
         """
 
         if not isinstance(user, str):
@@ -51,7 +51,7 @@ class User(object):
         self.hour = hour
         self.minute = minute
         self.second = second
-        time = Time(datetime(self.year, self.month, self.day, self.hour, self.minute, self.second))
+        time = Time(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minute}:{self.second}')
         self.time = time
 
         self.closest_object_nasa_table = self.get_closest_table()
@@ -69,7 +69,7 @@ class User(object):
             day (int): Birthday of User
             hour (int): Birthhour of User
             minute (int): Birthminute of User
-            second (int): Birthsecond of User
+            second (float): Birthsecond of User
 
         Returns:
             astropy.table.table.QTable: table of closest object to birth zenith
@@ -78,7 +78,6 @@ class User(object):
 
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
-        date_time = datetime(self.year, self.month, self.day, self.hour, self.minute, self.second)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
         zen_ra, zen_dec = self.get_zenith()
         table = exoplanets_table

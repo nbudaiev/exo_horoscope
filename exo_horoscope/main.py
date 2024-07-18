@@ -7,6 +7,10 @@ from geopy.geocoders import Nominatim
 from datetime import datetime
 import numpy as np
 
+exoplanets_table = NasaExoplanetArchive.query_criteria(table="pscomppars", select="*")
+
+
+
 class User(object):
     """
     User class
@@ -16,7 +20,7 @@ class User(object):
         """
         Args:
         name (str): Name of User
-        citystate (str): City and State of birth in the form: 'City State'
+        citystate (str): City and State of birth in the form: 'City State' / 'City Country'
         year (int): Birthyear of User
         month (int): Birthmonth of User
         day (int): Birthday of User
@@ -80,6 +84,7 @@ class User(object):
        Get zenith coordinates
        """
 
+
        location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
        zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
        zenith_radec = zenith.transform_to('icrs')
@@ -131,6 +136,7 @@ class User(object):
             return "very long orbital periods embody a reflective and contemplative thinking style"
 
     def map_stellar_mass_to_trait(self):
+        
         if self.stellar_mass == np.nan:
             return ""
         if self.stellar_mass < 0.5:

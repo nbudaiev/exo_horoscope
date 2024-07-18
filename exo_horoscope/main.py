@@ -67,8 +67,6 @@ class User(object):
         date_time = datetime(self.year, self.month, self.day, self.hour, self.minute, self.second)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
         zen_ra, zen_dec = self.get_zenith()
-        # need to add a check if 4 degrees are not enough
-        #table = NasaExoplanetArchive.query_region(table="pscomppars", coordinates=SkyCoord(zen_ra, zen_dec), radius=24 * u.deg)
         table = exoplanets_table
         coords = SkyCoord(zen_ra, zen_dec, unit=(u.deg, u.deg))
         stars_coords = SkyCoord(table['ra'], table['dec'], unit=(u.deg, u.deg))
@@ -79,23 +77,14 @@ class User(object):
         return closest_table
         
     def get_zenith(self):
-        '''
+        """
         Compute birth zenith
 
         This method takes latitude and longitude coordinates of the user's birth city and computes from it ra and dec coordinates of the birth zenith.
-
-        Args:
-            citystate (str): City and State of birth in the form: 'City State'
-            year (int): Birthyear of User
-            month (int): Birthmonth of User
-            day (int): Birthday of User
-            hour (int): Birthhour of User
-            minute (int): Birthminute of User
-            second (int): Birthsecond of User
-
+        
         Returns:
             tuple: (astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)
-        '''
+        """
        location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
        zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
        zenith_radec = zenith.transform_to('icrs')
@@ -109,9 +98,6 @@ class User(object):
         Map orbital eccentricity to personality trait
 
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital eccentricity.
-
-        Args:
-            eccentricity (float): value of the exoplanet's orbital eccentricity
 
         Returns:
             string: the personality trait
@@ -134,9 +120,6 @@ class User(object):
         Map orbital semimajor axis to personality trait
 
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital semimajor axis.
-
-        Args:
-            semimajor axis (float): value of the exoplanet's orbital semimajor axis
 
         Returns:
             string: the personality trait

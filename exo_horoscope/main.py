@@ -85,11 +85,11 @@ class User(object):
         Returns:
             tuple: (astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)
         """
-       location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
-       zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
-       zenith_radec = zenith.transform_to('icrs')
-       
-       return zenith_radec.ra, zenith_radec.dec
+        location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
+        zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
+        zenith_radec = zenith.transform_to('icrs')
+
+        return zenith_radec.ra, zenith_radec.dec
 
 
 

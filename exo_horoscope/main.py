@@ -65,7 +65,8 @@ class User(object):
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
         zen_ra, zen_dec = self.get_zenith()
         # need to add a check if 4 degrees are not enough
-        table = NasaExoplanetArchive.query_region(table="pscomppars", coordinates=SkyCoord(zen_ra, zen_dec), radius=24 * u.deg)
+        #table = NasaExoplanetArchive.query_region(table="pscomppars", coordinates=SkyCoord(zen_ra, zen_dec), radius=24 * u.deg)
+        table = exoplanets_table
         coords = SkyCoord(zen_ra, zen_dec, unit=(u.deg, u.deg))
         stars_coords = SkyCoord(table['ra'], table['dec'], unit=(u.deg, u.deg))
         distances = coords.separation(stars_coords)

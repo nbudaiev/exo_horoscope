@@ -19,7 +19,7 @@ class User(object):
     def __init__(self, user, citystate, year, month, day, hour, minute, second):
         """
         Args:
-        name (str): Name of User
+        user (str): User's name in the form 'User'
         citystate (str): City and State of birth in the form: 'City State' / 'City Country'
         year (int): Birthyear of User
         month (int): Birthmonth of User
@@ -50,7 +50,6 @@ class User(object):
         This method finds the Nasa Exoplanet Archive table of the object which transits nearest birth zenith of the user.
 
         Args:
-            user (str): Name of User in the form 'User'
             citystate (str): City and State of birth in the form: 'City State'
             year (int): Birthyear of User
             month (int): Birthmonth of User
@@ -80,11 +79,23 @@ class User(object):
         return closest_table
         
     def get_zenith(self):
-       """
-       Get zenith coordinates
-       """
+        '''
+        Compute birth zenith
 
+        This method takes latitude and longitude coordinates of the user's birth city and computes from it ra and dec coordinates of the birth zenith.
 
+        Args:
+            citystate (str): City and State of birth in the form: 'City State'
+            year (int): Birthyear of User
+            month (int): Birthmonth of User
+            day (int): Birthday of User
+            hour (int): Birthhour of User
+            minute (int): Birthminute of User
+            second (int): Birthsecond of User
+
+        Returns:
+            tuple: (astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)
+        '''
        location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
        zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
        zenith_radec = zenith.transform_to('icrs')
@@ -94,6 +105,17 @@ class User(object):
 
 
     def map_eccentricity_to_trait(self):
+        '''
+        Map orbital eccentricity to personality trait
+
+        This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital eccentricity.
+
+        Args:
+            eccentricity (float): value of the exoplanet's orbital eccentricity
+
+        Returns:
+            string: the personality trait
+        '''
         if self.eccentricity == np.nan:
             return ""
         if self.eccentricity == 0:
@@ -108,12 +130,17 @@ class User(object):
             return "embrace change"
 
     def map_semimajor_axis_to_trait(self):
-        """
-        Map exoplanet system's semi-major axis to a personality trait (introvert vs extrovert).
+        '''
+        Map orbital semimajor axis to personality trait
 
-        Return:
-            str: The personality trait based on the semi-major axis.
-        """
+        This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital semimajor axis.
+
+        Args:
+            semimajor axis (float): value of the exoplanet's orbital semimajor axis
+
+        Returns:
+            string: the personality trait
+        '''
         if self.semimajor_axis == np.nan:
             return ""
         if self.semimajor_axis < 0.1:

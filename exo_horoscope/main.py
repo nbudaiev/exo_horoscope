@@ -108,6 +108,12 @@ class User(object):
             return "embrace change"
 
     def map_semimajor_axis_to_trait(self):
+        """
+        Map exoplanet system's semi-major axis to a personality trait (introvert vs extrovert).
+
+        Return:
+            str: The personality trait based on the semi-major axis.
+        """
         if self.semimajor_axis == np.nan:
             return ""
         if self.semimajor_axis < 0.1:
@@ -122,6 +128,12 @@ class User(object):
             return "are on the outskirts, indicating a highly introspective and solitary disposition, thriving in their own space away from the hustle and bustle"
 
     def map_orbital_period_to_trait(self):
+        """
+        Map exoplanet system's orbital period to a personality trait (thinking style).
+
+        Returns: 
+            str: The personality trait text message.
+        """
         if self.period == np.nan:
             return ""
         if self.period < 10:
@@ -136,7 +148,13 @@ class User(object):
             return "very long orbital periods embody a reflective and contemplative thinking style"
 
     def map_stellar_mass_to_trait(self):
-        
+        """
+        Map exoplanet system's stellar mass to a personality trait.
+
+        Returns:
+            str: The personality trait based on the stellar mass.
+        """
+
         if self.stellar_mass == np.nan:
             return ""
         if self.stellar_mass < 0.5:
@@ -149,6 +167,12 @@ class User(object):
             return "intense and transformative"
         
     def get_horoscope(self):
+        """
+        User class method to get the User's horoscope based on User's attributes.
+
+        Returns:
+            str: The horoscope message for the User.
+        """
         self.planet = self.closest_object_nasa_table['pl_name'][0]
         self.star = self.closest_object_nasa_table['hostname'][0]
         self.eccentricity = np.nanmean(self.closest_object_nasa_table["pl_orbeccen"])

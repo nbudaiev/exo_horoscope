@@ -14,7 +14,7 @@ project = 'exo_horoscope'
 copyright = '2024, Nazar Budaiev, Micah Oeur'
 author = 'Nazar Budaiev, Micah Oeur'
 root_doc='index'
-release = 'v0.1'
+release = 'v0.1.3'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -34,4 +34,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 #html_theme = 'alabaster'
-html_static_path = ['_static']
+#html_static_path = ['_static']

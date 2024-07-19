@@ -18,7 +18,6 @@ catalog_path = os.path.join(package_root, 'confirmed_exoplanets_table.ecsv')
 
 if not os.path.exists(catalog_path):
    from exo_horoscope import update_exoplanet_catalog
-   print(catalog_path)
 
 with importlib.resources.path('exo_horoscope', 'confirmed_exoplanets_table.ecsv') as catalog_path:
     exoplanets_table = ascii.read(catalog_path)

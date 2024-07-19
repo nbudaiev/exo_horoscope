@@ -227,7 +227,7 @@ class User(object):
         #self.planet_radius = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_radj"].value))
         #self.planet_density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))
         #self.planet_temp = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_eqt"].value))
-        #self.stellar_magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["st_optmag"].value))
+        #self.stellar_magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["st_optmag"].value)) # I think this one is wrong
         #self.stellar_radius = np.nanmean(np.asarray(self.closest_object_nasa_table["st_rad"].value))
         #self.stellar_temp = np.nanmean(np.asarray(self.closest_object_nasa_table["st_teff"].value))
 

@@ -9,13 +9,19 @@ import importlib.resources
 
 import os
 
-file_path = "confirmed_exoplantes_table.ecsv"
+#file_path = "confirmed_exoplantes_table.ecsv"
 
-if not os.path.exists(file_path):
+with importlib.resources.path('exo_horoscope', 'main.py') as package_root_path:
+    package_root = package_root_path.parent
+
+catalog_path = os.path.join(package_root, 'confirmed_exoplanets_table.ecsv')
+
+if not os.path.exists(catalog_path):
    from exo_horoscope import update_exoplanet_catalog
+   print(catalog_path)
 
-with importlib.resources.path('exo_horoscope', 'confirmed_exoplanets_table.ecsv') as file_path:
-    exoplanets_table = ascii.read(file_path)
+with importlib.resources.path('exo_horoscope', 'confirmed_exoplanets_table.ecsv') as catalog_path:
+    exoplanets_table = ascii.read(catalog_path)
 
 
 

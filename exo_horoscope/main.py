@@ -77,10 +77,13 @@ class User(object):
         self.hour = hour
         self.minute = minute
         self.second = second
-        date_and_time = Time(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minute}:{self.second}')
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            date_and_time = Time(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minute}:{self.second}')
         self.time = date_and_time
-
-        self.closest_object_nasa_table = self.get_closest_table()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.closest_object_nasa_table = self.get_closest_table()
 
         self.planet = self.closest_object_nasa_table['pl_name']
         self.star = self.closest_object_nasa_table['hostname']
@@ -106,7 +109,6 @@ class User(object):
             astropy.table.table.QTable: table of closest object to birth zenith
         '''
             
-
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
@@ -223,8 +225,6 @@ class User(object):
         Returns:
             str: The horoscope message for the User.
         """
-        #self.planet = self.closest_object_nasa_table['pl_name'][0]
-        #self.star = self.closest_object_nasa_table['hostname'][0]
         self.eccentricity = np.nanmean(self.closest_object_nasa_table["pl_orbeccen"])
         self.semimajor_axis = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbsmax"].value))
         self.period = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbper"].value))
@@ -316,8 +316,6 @@ class User(object):
         Returns:
             str: The life suggestions message for the User.
         """
-        #self.planet = self.closest_object_nasa_table['pl_name']#[0]
-        #self.star = self.closest_object_nasa_table['hostname']#[0]
         self.radius = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_radj"].value))
         self.magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["sy_gaiamag"].value))
         self.density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))

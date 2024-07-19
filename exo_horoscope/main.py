@@ -6,7 +6,16 @@ import numpy as np
 from astropy.io import ascii
 import warnings
 
-exoplanets_table = ascii.read("confirmed_exoplanets_table.ecsv")
+import os
+
+# Get the absolute path of the current script file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the exoplanets table file
+exoplanets_table_path = os.path.join(current_dir, "..", "confirmed_exoplanets_table.ecsv")
+
+# Read the exoplanets table using the relative path
+exoplanets_table = ascii.read(exoplanets_table_path)
 
 class User(object):
     """
@@ -91,7 +100,7 @@ class User(object):
 
 
     def get_closest_table(self):
-        '''
+        """
         Get table of closest object
 
         This method finds the Nasa Exoplanet Archive table of the object which transits nearest birth zenith of the user.
@@ -107,7 +116,7 @@ class User(object):
 
         Returns:
             astropy.table.table.QTable: table of closest object to birth zenith
-        '''
+        """
             
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
@@ -140,14 +149,14 @@ class User(object):
 
 
     def map_eccentricity_to_trait(self):
-        '''
+        """
         Map orbital eccentricity to personality trait
 
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital eccentricity.
 
         Returns:
             str: the personality trait
-        '''
+        """
         if self.eccentricity == np.nan:
             return ""
         if self.eccentricity == 0:
@@ -162,14 +171,14 @@ class User(object):
             return "embrace change"
 
     def map_semimajor_axis_to_trait(self):
-        '''
+        """
         Map orbital semimajor axis to personality trait
 
         This method assigns a personality trait to the user based on the value of their birth exoplanet's orbital semimajor axis.
 
         Returns:
             str: the personality trait
-        '''
+        """
         if self.semimajor_axis == np.nan:
             return ""
         if self.semimajor_axis < 0.1:
@@ -256,14 +265,14 @@ class User(object):
 
 
     def map_radius_to_life_suggestion(self):
-        '''
+        """
         Map planet radius to life suggestion.
 
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's radius.
 
         Returns:
             string: the life suggestion
-        '''
+        """
         if self.radius == np.nan:
             return ""
         if self.radius < 1:
@@ -276,14 +285,14 @@ class User(object):
             return "aim high and don't be afraid to dream big"
 
     def map_magnitude_to_life_suggestion(self):
-        '''
+        """
         Map planet magnitude to life suggestion.
 
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's magnitude.
 
         Returns:
             string: the life suggestion
-        '''
+        """
         if self.magnitude == np.nan:
             return ""
         if self.magnitude < 10:
@@ -294,14 +303,14 @@ class User(object):
             return "be a guiding light for others around you"
 
     def map_density_to_life_suggestion(self):
-        '''
+        """
         Map planet density to life suggestion.
 
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's density.
 
         Returns:
             string: the life suggestion
-        '''
+        """
         if self.density == np.nan:
             return ""
         if self.density < 3:

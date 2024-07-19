@@ -7,6 +7,13 @@ from astropy.io import ascii
 import warnings
 import importlib.resources
 
+import os
+
+file_path = "confirmed_exoplantes_table.ecsv"
+
+if not os.path.exists(file_path):
+   from exo_horoscope import update_exoplanet_catalog
+
 with importlib.resources.path('exo_horoscope', 'confirmed_exoplanets_table.ecsv') as file_path:
     exoplanets_table = ascii.read(file_path)
 

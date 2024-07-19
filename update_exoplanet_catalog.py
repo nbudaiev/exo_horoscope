@@ -1,6 +1,6 @@
 """
 This python script updates the exoplanet catalog by querying the NASA Exoplanet Archive.
-The 
+The script reduces the table to include only the columns of interest and saves the table in the ECSV format.
 """
 from astroquery.ipac.nexsci.nasa_exoplanet_archive import NasaExoplanetArchive
 

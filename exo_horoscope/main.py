@@ -212,3 +212,118 @@ class User(object):
                 f"and with a stellar mass of {self.stellar_mass:.2f} solar masses, you are {self.map_stellar_mass_to_trait()}.")
         return message
 
+    def map_radius_to_life_suggestion(self):
+        '''
+        Map planet radius to life suggestion.
+
+        This method assigns a life suggestion to the user based on the value of their birth exoplanet's radius.
+
+        Returns:
+            string: the life suggestion
+        '''
+        if self.radius == np.nan:
+            return ""
+        if self.radius < 1:
+            return "focus on the little things; small steps can lead to big achievements"
+        elif 1 <= self.radius < 2:
+            return "find balance between ambition and contentment"
+        elif 2 <= self.radius < 5:
+            return "be bold and take on challenges head-on"
+        else:
+            return "aim high and don't be afraid to dream big"
+
+    def map_magnitude_to_life_suggestion(self):
+        '''
+        Map planet magnitude to life suggestion.
+
+        This method assigns a life suggestion to the user based on the value of their birth exoplanet's magnitude.
+
+        Returns:
+            string: the life suggestion
+        '''
+        if self.magnitude == np.nan:
+            return ""
+        if self.magnitude < 10:
+            return "embrace your bright and positive nature"
+        elif 10 <= self.magnitude < 15:
+            return "find ways to shine even in the dark moments"
+        else:
+            return "be a guiding light for others around you"
+
+    def map_density_to_life_suggestion(self):
+        '''
+        Map planet density to life suggestion.
+
+        This method assigns a life suggestion to the user based on the value of their birth exoplanet's density.
+
+        Returns:
+            string: the life suggestion
+        '''
+        if self.density == np.nan:
+            return ""
+        if self.density < 3:
+            return "keep a light-hearted and flexible approach to life"
+        elif 3 <= self.density < 5:
+            return "balance your seriousness with moments of joy"
+        elif 5 <= self.density < 8:
+            return "stay grounded and practical in your decisions"
+        else:
+            return "be resilient and unyielding in the face of challenges"
+
+    def get_life_suggestions(self):
+        """
+        User class method to get the User's life suggestions based on exoplanet's orbital properties.
+
+        Returns:
+            str: The life suggestions message for the User.
+        """
+        self.planet = self.closest_object_nasa_table['pl_name'][0]
+        self.star = self.closest_object_nasa_table['hostname'][0]
+        self.radius = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_radj"].value))
+        self.magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_optmag"].value))
+        self.density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))
+        radius_suggestion = self.map_radius_to_life_suggestion()
+        magnitude_suggestion = self.map_magnitude_to_life_suggestion()
+        density_suggestion = self.map_density_to_life_suggestion()
+
+        message = (f"{self.user}, your birth exoplanet is {self.planet} orbiting star {self.star}. "
+                f"Based on a radius of {radius:.2f} Jupiter radii, {radius_suggestion}. "
+                f"With a magnitude of {magnitude:.2f}, {magnitude_suggestion}. "
+                f"And with a density of {density:.2f} g/cm³, {density_suggestion}.")
+        return message
+    
+    def get_lucky_numbers(self):
+        """
+        Generate lucky numbers based on the first two letters of the exoplanet and user names.
+
+        Returns:
+            str: A message with the lucky numbers and their corresponding adjectives.
+        """
+        # Dictionary to map letters to their positions in the alphabet
+        letter_to_number = {chr(i + 96): i for i in range(1, 27)}
+
+        # Function to get number from letter
+        def letter_number(letter):
+            return letter_to_number.get(letter.lower(), 0)
+
+        # Function to get an adjective based on a number
+        def number_to_adjective(number):
+            adjectives = [
+                "amazing", "brave", "creative", "dynamic", "elegant", "fearless", "graceful", "honest",
+                "intelligent", "joyful", "kind", "lively", "mighty", "noble", "optimistic", "passionate",
+                "quick", "radiant", "strong", "trustworthy", "unique", "vibrant", "wise", "youthful", "zealous"
+            ]
+            return adjectives[number % len(adjectives)]
+
+        # Get the first two letters of the exoplanet and user names
+        planet_letters = self.planet[:2].lower()
+        user_letters = self.user[:2].lower()
+
+        # Generate the lucky numbers
+        lucky_numbers = [letter_number(letter) for letter in planet_letters + user_letters]
+
+        # Generate the message with lucky numbers and adjectives
+        lucky_numbers_message = ", ".join([f"{num} ({number_to_adjective(num)})" for num in lucky_numbers])
+
+        message = f"Lucky numbers: {lucky_numbers_message}."
+        return message

@@ -3,7 +3,7 @@
 Main Functions
 ==============
 
-Test function
+Test text
 
 .. automodule:: main
     :members:

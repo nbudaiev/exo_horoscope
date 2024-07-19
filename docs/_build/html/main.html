@@ -50,9 +50,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#main.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.get_closest_table"><code class="docutils literal notranslate"><span class="pre">User.get_closest_table()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.get_horoscope"><code class="docutils literal notranslate"><span class="pre">User.get_horoscope()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.get_life_suggestions"><code class="docutils literal notranslate"><span class="pre">User.get_life_suggestions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.get_lucky_numbers"><code class="docutils literal notranslate"><span class="pre">User.get_lucky_numbers()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.get_zenith"><code class="docutils literal notranslate"><span class="pre">User.get_zenith()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_density_to_life_suggestion"><code class="docutils literal notranslate"><span class="pre">User.map_density_to_life_suggestion()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.map_eccentricity_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_eccentricity_to_trait()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_magnitude_to_life_suggestion"><code class="docutils literal notranslate"><span class="pre">User.map_magnitude_to_life_suggestion()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.map_orbital_period_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_orbital_period_to_trait()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.User.map_radius_to_life_suggestion"><code class="docutils literal notranslate"><span class="pre">User.map_radius_to_life_suggestion()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.map_semimajor_axis_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_semimajor_axis_to_trait()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.User.map_stellar_mass_to_trait"><code class="docutils literal notranslate"><span class="pre">User.map_stellar_mass_to_trait()</span></code></a></li>
 </ul>
@@ -106,7 +111,7 @@
 <li><p><strong>day</strong> (<em>int</em>) – Birthday of User</p></li>
 <li><p><strong>hour</strong> (<em>int</em>) – Birthhour of User</p></li>
 <li><p><strong>minute</strong> (<em>int</em>) – Birthminute of User</p></li>
-<li><p><strong>second</strong> (<em>int</em>) – Birthsecond of User</p></li>
+<li><p><strong>second</strong> (<em>float</em>) – Birthsecond of User</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -133,16 +138,59 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="main.User.get_life_suggestions">
+<span class="sig-name descname"><span class="pre">get_life_suggestions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.get_life_suggestions" title="Permalink to this definition"></a></dt>
+<dd><p>User class method to get the User’s life suggestions based on exoplanet’s orbital properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The life suggestions message for the User.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.get_lucky_numbers">
+<span class="sig-name descname"><span class="pre">get_lucky_numbers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.get_lucky_numbers" title="Permalink to this definition"></a></dt>
+<dd><p>Generate lucky numbers based on the first two letters of the exoplanet and user names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A message with the lucky numbers and their corresponding adjectives.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="main.User.get_zenith">
 <span class="sig-name descname"><span class="pre">get_zenith</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.get_zenith" title="Permalink to this definition"></a></dt>
 <dd><p>Compute birth zenith</p>
-<p>This method takes latitude and longitude coordinates of the user’s birth city and computes from it ra and dec coordinates of the birth zenith.</p>
+<p>This method takes latitude and longitude coordinates of the user’s birth city and time of birth and calculates the celestial coordinates of the zenith.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(astropy.coordinates.angles.Longitude, astropy.coordinates.angles.Latitude)</p>
+<dd class="field-odd"><p>celestial coordinates of the zenith.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple</p>
+<dd class="field-even"><p>astropy.coordinates.sky_coordinate.SkyCoord</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_density_to_life_suggestion">
+<span class="sig-name descname"><span class="pre">map_density_to_life_suggestion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_density_to_life_suggestion" title="Permalink to this definition"></a></dt>
+<dd><p>Map planet density to life suggestion.</p>
+<p>This method assigns a life suggestion to the user based on the value of their birth exoplanet’s density.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the life suggestion</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -155,6 +203,21 @@
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the personality trait</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_magnitude_to_life_suggestion">
+<span class="sig-name descname"><span class="pre">map_magnitude_to_life_suggestion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_magnitude_to_life_suggestion" title="Permalink to this definition"></a></dt>
+<dd><p>Map planet magnitude to life suggestion.</p>
+<p>This method assigns a life suggestion to the user based on the value of their birth exoplanet’s magnitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the life suggestion</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>string</p>
@@ -177,6 +240,21 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="main.User.map_radius_to_life_suggestion">
+<span class="sig-name descname"><span class="pre">map_radius_to_life_suggestion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_radius_to_life_suggestion" title="Permalink to this definition"></a></dt>
+<dd><p>Map planet radius to life suggestion.</p>
+<p>This method assigns a life suggestion to the user based on the value of their birth exoplanet’s radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the life suggestion</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="main.User.map_semimajor_axis_to_trait">
 <span class="sig-name descname"><span class="pre">map_semimajor_axis_to_trait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.User.map_semimajor_axis_to_trait" title="Permalink to this definition"></a></dt>
 <dd><p>Map orbital semimajor axis to personality trait</p>
@@ -186,7 +264,7 @@
 <dd class="field-odd"><p>the personality trait</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>string</p>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -6,16 +6,7 @@ import numpy as np
 from astropy.io import ascii
 import warnings
 
-import os
-
-# Get the absolute path of the current script file
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Construct the relative path to the exoplanets table file
-exoplanets_table_path = os.path.join(current_dir, "..", "confirmed_exoplanets_table.ecsv")
-
-# Read the exoplanets table using the relative path
-exoplanets_table = ascii.read(exoplanets_table_path)
+exoplanets_table = ascii.read("confirmed_exoplanets_table.ecsv")
 
 class User(object):
     """

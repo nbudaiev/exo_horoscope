@@ -11,6 +11,7 @@ Welcome to exo-horoscope's documentation!
    :caption: Contents:
 
    main.rst
+   update_exoplanet_catalog.rst
 
 
 

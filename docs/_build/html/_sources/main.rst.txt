@@ -1,9 +1,7 @@
 .. _main:
 
-Main Functions
-==============
-
-Test function
+Main class and its functions
+============================
 
 .. automodule:: main
     :members:

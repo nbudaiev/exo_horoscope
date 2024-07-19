@@ -38,6 +38,9 @@ class User(object):
         if not isinstance(year, int):
             raise TypeError("Year must be an integer.")
 
+        if year<=0:
+            raise ValueError("Year must be a positive integer.")
+
         self.user = user
 
         self.citystate = citystate
@@ -200,6 +203,15 @@ class User(object):
         self.semimajor_axis = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbsmax"].value))
         self.period = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbper"].value))
         self.stellar_mass = np.nanmean(np.asarray(self.closest_object_nasa_table["st_mass"].value))
+        #self.planet_mass = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_bmassj"].value))
+        #self.planet_radius = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_radj"].value))
+        #self.planet_density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))
+        #self.planet_temp = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_eqt"].value))
+        #self.stellar_magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["st_optmag"].value))
+        #self.stellar_radius = np.nanmean(np.asarray(self.closest_object_nasa_table["st_rad"].value))
+        #self.stellar_temp = np.nanmean(np.asarray(self.closest_object_nasa_table["st_teff"].value))
+
+
         eccentricity_trait = self.map_eccentricity_to_trait()
         axis_trait = self.map_semimajor_axis_to_trait()
         period_trait = self.map_orbital_period_to_trait()

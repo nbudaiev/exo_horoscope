@@ -5,8 +5,12 @@ from geopy.geocoders import Nominatim
 import numpy as np
 from astropy.io import ascii
 import warnings
+import importlib.resources
 
-exoplanets_table = ascii.read("confirmed_exoplanets_table.ecsv")
+with importlib.resources.path('exo_horoscope', 'confirmed_exoplanets_table.ecsv') as file_path:
+    exoplanets_table = ascii.read(file_path)
+
+
 
 class User(object):
     """

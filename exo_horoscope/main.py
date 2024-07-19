@@ -292,7 +292,7 @@ class User(object):
         self.planet = self.closest_object_nasa_table['pl_name'][0]
         self.star = self.closest_object_nasa_table['hostname'][0]
         self.radius = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_radj"].value))
-        self.magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_optmag"].value))
+        self.magnitude = np.nanmean(np.asarray(self.closest_object_nasa_table["sy_gaiamag"].value))
         self.density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))
         radius_suggestion = self.map_radius_to_life_suggestion()
         magnitude_suggestion = self.map_magnitude_to_life_suggestion()

@@ -244,6 +244,7 @@ class User(object):
                 f"and with a stellar mass of {self.stellar_mass:.2f} solar masses, you are {self.map_stellar_mass_to_trait()}.")
         return message
 
+
     def map_radius_to_life_suggestion(self):
         '''
         Map planet radius to life suggestion.
@@ -359,4 +360,3 @@ class User(object):
 
         message = f"Lucky numbers: {lucky_numbers_message}."
         return message
-msg = User("Chelsea", "Redlands California", 1991, 4, 27, 12, 4, 0).get_horoscope()

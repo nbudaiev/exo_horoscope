@@ -1,14 +1,11 @@
-from astroquery.ipac.nexsci.nasa_exoplanet_archive import NasaExoplanetArchive
 from astropy.time import Time
 from astropy.coordinates import EarthLocation, AltAz, SkyCoord
 import astropy.units as u
-from geopy import geocoders  
 from geopy.geocoders import Nominatim
 import numpy as np
+from astropy.io import ascii
 
-exoplanets_table = NasaExoplanetArchive.query_criteria(table="pscomppars", select="*")
-
-
+exoplanets_table = ascii.read("confirmed_exoplanets_table.ecsv")
 
 class User(object):
     """
@@ -69,7 +66,6 @@ class User(object):
             raise ValueError("Second must be a float between 0 and 60.")
 
         
-
         self.user = user
 
         self.citystate = citystate
@@ -80,8 +76,8 @@ class User(object):
         self.hour = hour
         self.minute = minute
         self.second = second
-        time = Time(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minute}:{self.second}')
-        self.time = time
+        date_and_time = Time(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minute}:{self.second}')
+        self.time = date_and_time
 
         self.closest_object_nasa_table = self.get_closest_table()
 
@@ -108,13 +104,11 @@ class User(object):
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
-        table = exoplanets_table
         coords = self.get_zenith()
-        stars_coords = SkyCoord(table['ra'], table['dec'], unit=(u.deg, u.deg))
+        stars_coords = SkyCoord(exoplanets_table['ra'], exoplanets_table['dec'], unit=(u.deg, u.deg))
         distances = coords.separation(stars_coords)
         closest_index = distances.argmin()
-        closest_object = table[closest_index]
-        closest_table = NasaExoplanetArchive.query_object(closest_object['pl_name'])
+        closest_table = exoplanets_table[closest_index]
         return closest_table
         
     def get_zenith(self):
@@ -129,7 +123,6 @@ class User(object):
         location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
         zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
         zenith_radec = zenith.transform_to('icrs')
-
         return zenith_radec
 
 
@@ -251,3 +244,4 @@ class User(object):
                 f"and with a stellar mass of {self.stellar_mass:.2f} solar masses, you are {self.map_stellar_mass_to_trait()}.")
         return message
 
+msg = User("Chelsea", "Redlands California", 1991, 4, 27, 12, 4, 0).get_horoscope()

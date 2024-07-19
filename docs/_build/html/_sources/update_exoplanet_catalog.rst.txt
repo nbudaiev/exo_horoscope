@@ -3,7 +3,7 @@
 Other Functions
 ===============
 
-Test text 2
+Empty for now (fixing issues)
 
 .. automodule:: update_exoplanet_catalog
     :members:

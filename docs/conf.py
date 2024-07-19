@@ -8,8 +8,8 @@
 
 import os
 import sys
-#sys.path.insert(0, os.path.abspath('../exo_horoscope'))
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../exo_horoscope'))
+#sys.path.insert(0, os.path.abspath('..'))
 
 project = 'exo_horoscope'
 copyright = '2024, Nazar Budaiev, Micah Oeur'

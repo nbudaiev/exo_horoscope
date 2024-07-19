@@ -278,7 +278,7 @@ class User(object):
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's radius.
 
         Returns:
-            string: the life suggestion
+            str: the life suggestion
         """
         if self.radius == np.nan:
             return ""
@@ -298,7 +298,7 @@ class User(object):
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's magnitude.
 
         Returns:
-            string: the life suggestion
+            str: the life suggestion
         """
         if self.magnitude == np.nan:
             return ""
@@ -316,7 +316,7 @@ class User(object):
         This method assigns a life suggestion to the user based on the value of their birth exoplanet's density.
 
         Returns:
-            string: the life suggestion
+            str: the life suggestion
         """
         if self.density == np.nan:
             return ""

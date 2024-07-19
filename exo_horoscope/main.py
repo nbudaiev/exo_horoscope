@@ -112,8 +112,10 @@ class User(object):
         geolocator = Nominatim(user_agent='moeur')
         location = geolocator.geocode(self.citystate)
         self.birth_lat, self.birth_lon = location[1][0], location[1][1]
-        coords = self.get_zenith()
-        stars_coords = SkyCoord(exoplanets_table['ra'], exoplanets_table['dec'], unit=(u.deg, u.deg))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            coords = self.get_zenith()
+            stars_coords = SkyCoord(exoplanets_table['ra'], exoplanets_table['dec'], unit=(u.deg, u.deg))
         distances = coords.separation(stars_coords)
         closest_index = distances.argmin()
         closest_table = exoplanets_table[closest_index]
@@ -129,8 +131,10 @@ class User(object):
             astropy.coordinates.sky_coordinate.SkyCoord: celestial coordinates of the zenith.
         """
         location = EarthLocation(lat=self.birth_lat, lon=self.birth_lon)
-        zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
-        zenith_radec = zenith.transform_to('icrs')
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            zenith = SkyCoord(alt=90*u.deg, az=0*u.deg, frame=AltAz(obstime=self.time, location=location))
+            zenith_radec = zenith.transform_to('icrs')
         return zenith_radec
 
 

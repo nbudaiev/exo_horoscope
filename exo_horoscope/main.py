@@ -320,9 +320,9 @@ class User(object):
         density_suggestion = self.map_density_to_life_suggestion()
 
         message = (f"{self.user}, your birth exoplanet is {self.planet} orbiting star {self.star}. "
-                f"Based on a radius of {radius:.2f} Jupiter radii, {radius_suggestion}. "
-                f"With a magnitude of {magnitude:.2f}, {magnitude_suggestion}. "
-                f"And with a density of {density:.2f} g/cm³, {density_suggestion}.")
+                f"Based on a radius of {self.radius:.2f} Jupiter radii, {radius_suggestion}. "
+                f"With a magnitude of {self.magnitude:.2f}, {magnitude_suggestion}. "
+                f"And with a density of {self.density:.2f} g/cm³, {density_suggestion}.")
         return message
     
     def get_lucky_numbers(self):

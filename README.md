@@ -1,8 +1,12 @@
 # exo_horoscope
-Exoplanet-based horoscope
+[![A rectangular badge, half black half purple containing the text made at Code Astro](https://img.shields.io/badge/Made%20at-Code/Astro-blueviolet.svg)](https://semaphorep.github.io/codeastro/)
+
+Exoplanet-based horoscope.
+
+* Documentation: https://exo-horoscope.readthedocs.io/en/latest/main.html
 
 
-How to use:
+## How to use:
 
 `pip install exo-horoscope`
 

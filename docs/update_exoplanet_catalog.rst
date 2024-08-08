@@ -1,9 +1,9 @@
 .. _update_exoplanet_catalog:
 
-Other Functions
-===============
+update_exoplanet_catalog.py
+===========================
+Run update_exoplanet_catalog.py to get the most recent version of the exoplanet catalog.
 
-Empty for now (fixing issues)
 
 .. automodule:: update_exoplanet_catalog
     :members:

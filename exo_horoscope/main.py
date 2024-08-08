@@ -226,17 +226,30 @@ class User(object):
         Returns:
             str: The personality trait based on the stellar mass.
         """
-
-        if self.stellar_mass == np.nan:
+        if np.isnan(self.stellar_mass):
             return ""
-        if self.stellar_mass < 0.5:
+
+        if self.stellar_mass < 0.2:
             return "stable and enduring"
-        elif 0.5 <= self.stellar_mass < 1.5:
+        elif 0.2 <= self.stellar_mass < 0.4:
+            return "patient and reliable"
+        elif 0.4 <= self.stellar_mass < 0.6:
             return "balanced and nurturing"
-        elif 1.5 <= self.stellar_mass < 3:
+        elif 0.6 <= self.stellar_mass < 0.8:
+            return "adaptable and flexible"
+        elif 0.8 <= self.stellar_mass < 1.0:
+            return "thoughtful and observant"
+        elif 1.0 <= self.stellar_mass < 1.5:
             return "dynamic and charismatic"
-        else:
+        elif 1.5 <= self.stellar_mass < 2.0:
+            return "ambitious and driven"
+        elif 2.0 <= self.stellar_mass < 2.5:
+            return "confident and bold"
+        elif 2.5 <= self.stellar_mass < 3.0:
             return "intense and transformative"
+        else:
+            return "powerful and dominant"
+
         
     def get_horoscope(self):
         """

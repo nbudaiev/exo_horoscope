@@ -164,18 +164,56 @@ class User(object):
         Returns:
             str: the personality trait
         """
-        if self.eccentricity == np.nan:
+        if np.isnan(self.eccentricity):
             return ""
-        if self.eccentricity == 0:
-            return "are perfectly stable"
-        elif 0 < self.eccentricity < 0.3:
-            return "prefer stability"
-        elif 0.3 <= self.eccentricity < 0.6:
-            return "are balanced"
-        elif 0.6 <= self.eccentricity < 0.9:
-            return "prefer excitement"
-        else:
-            return "embrace change"
+
+        base_traits = [
+            "are perfectly stable, thriving in predictable and consistent environments",
+            "have a very low tendency for change, enjoying a calm and steady lifestyle",
+            "exhibit a slight preference for stability, appreciating consistency",
+            "favor routine, enjoying the security of familiar patterns",
+            "are mostly stable, finding comfort in regularity",
+            "enjoy a generally stable environment, feeling at ease with the familiar",
+            "have a low eccentricity, preferring a predictable and steady life",
+            "lean towards stability, valuing consistency and routine",
+            "enjoy a slightly varied life, with a preference for stability",
+            "are stable but open to small changes, appreciating minor variations",
+            "prefer stability but enjoy occasional changes, valuing a balance",
+            "are generally stable, with a slight openness to new experiences",
+            "enjoy a balanced life, appreciating both stability and change",
+            "are balanced, finding comfort in a mix of stability and variety",
+            "appreciate a balanced approach, valuing both routine and novelty",
+            "enjoy equilibrium, equally comfortable with consistency and change",
+            "are balanced, thriving in environments with both stability and excitement",
+            "value a balanced life, enjoying a mix of familiar and new experiences",
+            "are balanced, appreciating the interplay of stability and novelty",
+            "prefer excitement but value stability, enjoying a dynamic life",
+            "enjoy a mix of excitement and stability, thriving in varied environments",
+            "lean towards excitement, appreciating dynamic and stimulating experiences",
+            "prefer excitement, valuing variety and change",
+            "are drawn to excitement, thriving in lively and dynamic settings",
+            "enjoy excitement, preferring stimulating and varied experiences",
+            "prefer a dynamic life, valuing excitement and change",
+            "are highly dynamic, thriving in exciting and varied environments",
+            "embrace change, enjoying a life full of variety and excitement",
+            "are very dynamic, appreciating continuous change and excitement",
+            "embrace change, thriving in unpredictable and dynamic environments"
+        ]
+        
+        # Define the number of bins and the upper bound for eccentricity
+        num_bins = len(base_traits)
+        upper_bound = 1.0  # Eccentricity ranges from 0 to 1
+
+        # Determine the bin width
+        bin_width = upper_bound / num_bins
+        
+        # Determine the bin index for the eccentricity
+        bin_index = int(self.eccentricity / bin_width)
+        
+        # Ensure the index is within the bounds of base_traits
+        bin_index = min(bin_index, num_bins - 1)
+        
+        return base_traits[bin_index]
 
     def map_semimajor_axis_to_trait(self):
         """
@@ -186,38 +224,114 @@ class User(object):
         Returns:
             str: the personality trait
         """
-        if self.semimajor_axis == np.nan:
+        if np.isnan(self.semimajor_axis):
             return ""
-        if self.semimajor_axis < 0.1:
-            return "are 'close to the action' and constantly influenced by your star's energy, suggesting a very outgoing and active nature"
-        elif 0.1 <= self.semimajor_axis < 1:
-            return "are still within a region of significant stellar influence, indicating a generally social and engaging character"
-        elif 1 <= self.semimajor_axis < 5:
-            return "strike a balance between the inner and outer regions, reflecting a well-rounded personality that is equally comfortable in social situations and solitude"
-        elif 5 <= self.semimajor_axis < 30:
-            return "are farther from the star, implying a more reserved and introspective nature, preferring less direct interaction"
-        else:
-            return "are on the outskirts, indicating a highly introspective and solitary disposition, thriving in their own space away from the hustle and bustle"
+
+        base_traits = [
+            "are extremely close to the action, feeling the intensity of your star's energy, suggesting a very outgoing and hyperactive nature",
+            "are very near your star, constantly in the spotlight, indicating a lively and energetic personality",
+            "experience strong stellar influences, reflecting a dynamic and enthusiastic character",
+            "are close enough to feel the heat, suggesting a vibrant and extroverted nature",
+            "are quite near your star, basking in its energy, implying a spirited and sociable disposition",
+            "feel the star's warmth intensely, reflecting an animated and vivacious personality",
+            "are within close range, constantly energized by your star, suggesting a bubbly and proactive nature",
+            "are near the stellar core, indicating a dynamic and gregarious character",
+            "receive strong stellar input, implying an outgoing and lively personality",
+            "are influenced heavily by your star, reflecting an exuberant and active disposition",
+            "are still within a region of significant stellar influence, indicating a generally social and engaging character",
+            "are within the star's active zone, suggesting a sociable and energetic personality",
+            "are close enough for strong stellar effects, implying a friendly and dynamic nature",
+            "are in the star's warm embrace, reflecting a warm and approachable personality",
+            "experience significant stellar interaction, suggesting a vibrant and engaging character",
+            "are in a region of notable stellar influence, indicating a lively and amiable nature",
+            "are within the star's reach, suggesting a sociable and spirited personality",
+            "are moderately influenced by the star, reflecting a balanced and outgoing nature",
+            "are within comfortable stellar proximity, indicating a well-rounded and friendly character",
+            "are in a balanced zone, implying a sociable and dynamic personality",
+            "strike a balance between the inner and outer regions, reflecting a well-rounded personality that is equally comfortable in social situations and solitude",
+            "are in a region of moderate stellar influence, suggesting a balanced and thoughtful nature",
+            "are at a moderate distance from the star, indicating a balanced and introspective personality",
+            "are slightly removed from the star, reflecting a balanced and contemplative character",
+            "are somewhat distanced from the star, suggesting a reserved and thoughtful nature",
+            "are farther from the star, implying a more reserved and introspective nature, preferring less direct interaction",
+            "are in a region of lesser stellar influence, indicating a reserved and reflective personality",
+            "are at a significant distance, reflecting a thoughtful and solitary nature",
+            "are quite removed from the star, suggesting a contemplative and independent character",
+            "are on the outskirts, indicating a highly introspective and solitary disposition, thriving in their own space away from the hustle and bustle"
+        ]
+        
+        # Define the number of bins and the upper bound for semimajor axis
+        num_bins = len(base_traits)
+        upper_bound = 30.0  # Assuming 30 AU as the upper bound for semimajor axis
+
+        # Determine the bin width
+        bin_width = upper_bound / num_bins
+        
+        # Determine the bin index for the semimajor axis
+        bin_index = int(self.semimajor_axis / bin_width)
+        
+        # Ensure the index is within the bounds of base_traits
+        bin_index = min(bin_index, num_bins - 1)
+        
+        return base_traits[bin_index]
 
     def map_orbital_period_to_trait(self):
         """
         Map exoplanet system's orbital period to a personality trait (thinking style).
 
-        Returns: 
+        Returns:
             str: The personality trait text message.
         """
-        if self.period == np.nan:
+        if np.isnan(self.period):
             return ""
-        if self.period < 10:
-            return "rapid orbits suggest a fast-paced and reactive thinking style"
-        elif 10 <= self.period < 100:
-            return "orbits allow for rapid changes and adaptation, indicating an active and adaptive thinking style"
-        elif 100 <= self.period < 365:
-            return "orbital periods tend to experience balanced conditions, suggesting a balanced and analytical thinking style"
-        elif 365 <= self.period < 3650:
-            return "planets take longer to orbit their stars, implying a more deliberate and thoughtful approach"
-        else:
-            return "very long orbital periods embody a reflective and contemplative thinking style"
+        
+        base_traits = [
+            "rapid orbits suggest a fast-paced and reactive thinking style",
+            "quick orbits imply a highly adaptable and spontaneous nature",
+            "short orbits point to an energetic and proactive approach",
+            "swift orbits indicate a keen sense of urgency and decisiveness",
+            "brisk orbits reflect a sharp and agile mind",
+            "speedy orbits suggest a dynamic and flexible thinking style",
+            "fast orbits imply a quick-witted and responsive nature",
+            "zippy orbits point to a lively and alert mentality",
+            "nippy orbits indicate a nimble and resourceful mind",
+            "hasty orbits reflect a prompt and efficient thinking style",
+            "moderate orbits allow for rapid changes and adaptation, indicating an active and adaptive thinking style",
+            "steady orbits suggest a balanced and rational approach",
+            "intermediate orbits point to a thoughtful and considerate nature",
+            "consistent orbits imply a stable and reliable thinking style",
+            "reliable orbits reflect a methodical and logical approach",
+            "balanced orbits tend to experience balanced conditions, suggesting a balanced and analytical thinking style",
+            "measured orbits imply a careful and precise nature",
+            "calm orbits point to a composed and reflective mindset",
+            "harmonious orbits suggest an even-tempered and insightful approach",
+            "stable orbits reflect a judicious and perceptive thinking style",
+            "long orbits take longer to orbit their stars, implying a more deliberate and thoughtful approach",
+            "extended orbits suggest a contemplative and introspective nature",
+            "prolonged orbits point to a patient and reflective mindset",
+            "lengthy orbits imply a thorough and meticulous approach",
+            "drawn-out orbits reflect a cautious and prudent nature",
+            "vast orbits embody a reflective and contemplative thinking style",
+            "sprawling orbits suggest a far-reaching and philosophical mindset",
+            "expansive orbits point to a profound and meditative nature",
+            "sweeping orbits imply a deep and contemplative approach",
+            "broad orbits reflect an insightful and discerning thinking style"
+        ]
+        
+        # Define the number of bins and the upper bound for orbital periods
+        num_bins = len(base_traits)
+        upper_bound = 3650.0  # Assuming 3650 days as the upper bound for orbital periods
+
+        # Determine the bin width
+        bin_width = upper_bound / num_bins
+        
+        # Determine the bin index for the orbital period
+        bin_index = int(self.period / bin_width)
+        
+        # Ensure the index is within the bounds of base_traits
+        bin_index = min(bin_index, num_bins - 1)
+        
+        return base_traits[bin_index]
 
     def map_stellar_mass_to_trait(self):
         """
@@ -229,26 +343,33 @@ class User(object):
         if np.isnan(self.stellar_mass):
             return ""
 
-        if self.stellar_mass < 0.2:
-            return "stable and enduring"
-        elif 0.2 <= self.stellar_mass < 0.4:
-            return "patient and reliable"
-        elif 0.4 <= self.stellar_mass < 0.6:
-            return "balanced and nurturing"
-        elif 0.6 <= self.stellar_mass < 0.8:
-            return "adaptable and flexible"
-        elif 0.8 <= self.stellar_mass < 1.0:
-            return "thoughtful and observant"
-        elif 1.0 <= self.stellar_mass < 1.5:
-            return "dynamic and charismatic"
-        elif 1.5 <= self.stellar_mass < 2.0:
-            return "ambitious and driven"
-        elif 2.0 <= self.stellar_mass < 2.5:
-            return "confident and bold"
-        elif 2.5 <= self.stellar_mass < 3.0:
-            return "intense and transformative"
-        else:
-            return "powerful and dominant"
+        base_traits = [
+            "stable and enduring", "patient and reliable", "balanced and nurturing",
+            "adaptable and flexible", "thoughtful and observant", "resilient and steady",
+            "meticulous and precise", "practical and grounded", "loyal and trustworthy",
+            "persistent and determined", "independent and self-sufficient", "resourceful and clever",
+            "curious and inquisitive", "imaginative and dreamy", "empathetic and compassionate",
+            "charming and persuasive", "versatile and multifaceted", "playful and spontaneous",
+            "innovative and creative", "dynamic and charismatic", "confident and bold",
+            "ambitious and driven", "resolute and steadfast", "calm and composed",
+            "energetic and lively", "visionary and forward-thinking", "wise and discerning",
+            "courageous and daring", "intense and transformative", "powerful and dominant"
+        ]
+        
+        # Define the number of bins and the upper bound for stellar mass
+        num_bins = len(base_traits)
+        upper_bound = 3.0  # Assuming 3.0 as the upper bound for stellar mass
+
+        # Determine the bin width
+        bin_width = upper_bound / num_bins
+        
+        # Determine the bin index for the stellar mass
+        bin_index = int(self.stellar_mass / bin_width)
+        
+        # Ensure the index is within the bounds of base_traits
+        bin_index = min(bin_index, num_bins - 1)
+        
+        return base_traits[bin_index]
 
         
     def get_horoscope(self):
@@ -293,16 +414,55 @@ class User(object):
         Returns:
             str: the life suggestion
         """
-        if self.radius == np.nan:
+        if np.isnan(self.radius):
             return ""
-        if self.radius < 1:
-            return "focus on the little things; small steps can lead to big achievements"
-        elif 1 <= self.radius < 2:
-            return "find balance between ambition and contentment"
-        elif 2 <= self.radius < 5:
-            return "be bold and take on challenges head-on"
-        else:
-            return "aim high and don't be afraid to dream big"
+
+        base_suggestions = [
+            "focus on the little things; small steps can lead to big achievements",
+            "pay attention to detail; even small efforts can have significant impact",
+            "embrace small changes; they can lead to greater success",
+            "take gradual steps towards your goals; patience will be rewarding",
+            "be attentive to minor aspects; they often hold the key to success",
+            "celebrate small victories; they pave the way for bigger accomplishments",
+            "appreciate the small things; they contribute to overall growth",
+            "find joy in small achievements; they build the path to larger goals",
+            "take small, consistent actions; they lead to significant outcomes",
+            "value incremental progress; it accumulates to substantial results",
+            "balance ambition with contentment; focus on steady progress",
+            "set realistic goals; steady progress leads to achievement",
+            "maintain equilibrium between ambition and satisfaction",
+            "find contentment in your journey; progress comes with patience",
+            "cultivate a sense of balance; aim for steady and sustainable growth",
+            "focus on maintaining stability; small successes build up over time",
+            "find harmony between your aspirations and achievements",
+            "embrace a balanced approach; gradual progress is valuable",
+            "be mindful of your progress; find satisfaction in steady growth",
+            "find a middle ground; balance your drive with appreciation for progress",
+            "be bold and take on challenges head-on; step out of your comfort zone",
+            "pursue opportunities with courage; face challenges directly",
+            "take initiative; don't hesitate to embrace new challenges",
+            "be proactive in pursuing your goals; confront challenges with confidence",
+            "tackle obstacles with determination; take bold steps forward",
+            "embrace challenges; they are opportunities for growth and learning",
+            "pursue ambitious goals; your boldness will lead to growth",
+            "take on new ventures with confidence; challenges are stepping stones",
+            "be assertive in your ambitions; tackle obstacles with enthusiasm",
+            "aim high and don't be afraid to dream big; pursue your grand visions",
+            "aspire to great heights; let your ambitions drive you forward",
+            "dream without limits; your aspirations are the key to success",
+            "set lofty goals; your determination will help you achieve them",
+            "reach for the stars; embrace ambitious pursuits and grand visions",
+            "strive for greatness; let your dreams inspire you to new heights"
+        ]
+        
+        num_bins = len(base_suggestions)
+        upper_bound = 10.0  # Assuming 10 as the upper bound for radius
+
+        bin_width = upper_bound / num_bins
+        bin_index = int(self.radius / bin_width)
+        bin_index = min(bin_index, num_bins - 1)
+
+        return base_suggestions[bin_index]
 
     def map_magnitude_to_life_suggestion(self):
         """
@@ -313,14 +473,49 @@ class User(object):
         Returns:
             str: the life suggestion
         """
-        if self.magnitude == np.nan:
+        if np.isnan(self.magnitude):
             return ""
-        if self.magnitude < 10:
-            return "embrace your bright and positive nature"
-        elif 10 <= self.magnitude < 15:
-            return "find ways to shine even in the dark moments"
-        else:
-            return "be a guiding light for others around you"
+
+        base_suggestions = [
+            "embrace your bright and positive nature",
+            "let your inner light shine brightly; positivity is your strength",
+            "radiate positivity; your brightness inspires others",
+            "share your optimistic outlook; it illuminates those around you",
+            "maintain your radiant energy; it enhances your impact",
+            "celebrate your natural brightness; it brings light to others",
+            "be a beacon of positivity; your brightness is inspiring",
+            "find ways to shine even in the dark moments; your resilience is key",
+            "bring light to challenging situations; your optimism is powerful",
+            "continue to shine through adversity; your brightness leads the way",
+            "spread your light in difficult times; it has a profound effect",
+            "help others see the light; your positivity can guide them",
+            "be a guiding light for others around you; your presence is illuminating",
+            "lead by example; your brightness provides direction and hope",
+            "use your light to help others navigate through their challenges",
+            "offer guidance with your bright perspective; it lights the path for others",
+            "inspire those around you with your bright presence; it offers hope",
+            "be a source of illumination; your brightness has a meaningful impact",
+            "shine brightly; your presence brings clarity and inspiration",
+            "be the light in the lives of others; your brightness is a gift",
+            "navigate challenges with your inner light; it guides you through",
+            "find strength in your ability to shine; it lights up even the darkest moments",
+            "offer guidance and support with your illuminating presence",
+            "be a source of warmth and light; your positivity is transformative",
+            "continue to be a beacon of hope; your brightness encourages growth",
+            "let your light shine unwaveringly; it creates a path for others",
+            "radiate warmth and positivity; your light has a profound effect",
+            "be a steady source of illumination; your presence inspires and guides",
+            "embrace your role as a guiding light; your brightness fosters growth"
+        ]
+        
+        num_bins = len(base_suggestions)
+        upper_bound = 20.0  # Assuming 20 as the upper bound for magnitude
+
+        bin_width = upper_bound / num_bins
+        bin_index = int(self.magnitude / bin_width)
+        bin_index = min(bin_index, num_bins - 1)
+
+        return base_suggestions[bin_index]
 
     def map_density_to_life_suggestion(self):
         """
@@ -331,16 +526,54 @@ class User(object):
         Returns:
             str: the life suggestion
         """
-        if self.density == np.nan:
+        if np.isnan(self.density):
             return ""
-        if self.density < 3:
-            return "keep a light-hearted and flexible approach to life"
-        elif 3 <= self.density < 5:
-            return "balance your seriousness with moments of joy"
-        elif 5 <= self.density < 8:
-            return "stay grounded and practical in your decisions"
-        else:
-            return "be resilient and unyielding in the face of challenges"
+
+        base_suggestions = [
+            "keep a light-hearted and flexible approach to life",
+            "maintain a flexible attitude; adapt easily to changes",
+            "embrace a light-hearted approach; it brings joy and ease",
+            "find joy in being adaptable; flexibility is your strength",
+            "stay open to changes; flexibility will enhance your experiences",
+            "approach life with a light touch; adaptability is key",
+            "keep a carefree attitude; it helps you navigate through challenges",
+            "balance flexibility with stability; it leads to a fulfilling life",
+            "embrace adaptability; it makes life's journey more enjoyable",
+            "be light-hearted and adaptable; it helps you handle various situations",
+            "balance your seriousness with moments of joy; it enriches your life",
+            "find joy amidst your responsibilities; it makes your approach more enjoyable",
+            "incorporate fun into your serious tasks; it brings balance",
+            "blend seriousness with light-hearted moments; it creates harmony",
+            "maintain a balance between work and play; it enhances your well-being",
+            "find joy in the midst of your responsibilities; it brings balance",
+            "combine diligence with moments of relaxation; it improves your outlook",
+            "find equilibrium between seriousness and enjoyment; it leads to satisfaction",
+            "balance your approach to life; mix seriousness with playfulness",
+            "stay grounded and practical in your decisions; it provides stability",
+            "be practical and realistic; it ensures steady progress",
+            "maintain a grounded approach; it helps you make effective decisions",
+            "focus on practical solutions; it leads to reliable outcomes",
+            "remain grounded in your approach; it supports long-term success",
+            "be practical and pragmatic; it keeps you focused on achievable goals",
+            "be resilient and unyielding in the face of challenges; it ensures progress",
+            "develop resilience; it helps you overcome obstacles effectively",
+            "approach challenges with determination; resilience will see you through",
+            "remain steadfast in adversity; your resilience is a key strength",
+            "be unwavering in your efforts; resilience will lead to success",
+            "build your resilience; it enables you to handle challenges effectively",
+            "maintain a strong resolve; it supports your ability to overcome difficulties",
+            "embrace your resilient nature; it empowers you to face challenges head-on",
+            "stay firm in your approach; resilience ensures progress despite obstacles"
+        ]
+        
+        num_bins = len(base_suggestions)
+        upper_bound = 10.0  # Assuming 10 as the upper bound for density
+
+        bin_width = upper_bound / num_bins
+        bin_index = int(self.density / bin_width)
+        bin_index = min(bin_index, num_bins - 1)
+
+        return base_suggestions[bin_index]
 
     def get_life_suggestions(self):
         """

@@ -202,7 +202,7 @@ class User(object):
         
         # Define the number of bins and the upper bound for eccentricity
         num_bins = len(base_traits)
-        upper_bound = 1.0  # Eccentricity ranges from 0 to 1
+        upper_bound = 0.8  # Eccentricity ranges from 0 to 1
 
         # Determine the bin width
         bin_width = upper_bound / num_bins
@@ -262,7 +262,7 @@ class User(object):
         
         # Define the number of bins and the upper bound for semimajor axis
         num_bins = len(base_traits)
-        upper_bound = 30.0  # Assuming 30 AU as the upper bound for semimajor axis
+        upper_bound = 15.0  # Assuming 15 AU as the upper bound for semimajor axis
 
         # Determine the bin width
         bin_width = upper_bound / num_bins
@@ -320,7 +320,7 @@ class User(object):
         
         # Define the number of bins and the upper bound for orbital periods
         num_bins = len(base_traits)
-        upper_bound = 3650.0  # Assuming 3650 days as the upper bound for orbital periods
+        upper_bound = 3650.0  # Assuming 3650 days as the upper bound for orbital periods; not bad
 
         # Determine the bin width
         bin_width = upper_bound / num_bins
@@ -567,7 +567,7 @@ class User(object):
         ]
         
         num_bins = len(base_suggestions)
-        upper_bound = 10.0  # Assuming 10 as the upper bound for density
+        upper_bound = 10.0  # Assuming 10 as the upper bound for density; solid bound :)
 
         bin_width = upper_bound / num_bins
         bin_index = int(self.density / bin_width)
@@ -630,3 +630,84 @@ class User(object):
 
         message = f"Lucky numbers: {lucky_numbers_message}."
         return message
+    
+    def get_archetype(self):
+        self.semimajor = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbsmax"].value))
+        self.period = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbper"].value))
+        self.eccentricity = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_orbeccen"]))
+        self.density = np.nanmean(np.asarray(self.closest_object_nasa_table["pl_dens"].value))
+
+        def categorize_exoplanet(a, p, d, e):
+            if p <= 2000 and e > 0.5 and d <= 15:
+                return f"Based on an orbital period of {p:.2f} days, high eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Bold Innovator. " \
+                    "The Bold Innovator is characterized by short orbital periods, high eccentricity, and low density. Its traits are: Dynamic, adventurous, and pioneering. " \
+                    "Always ready to break new ground and embrace challenges. The Bold Innovator is a trailblazer, constantly seeking new frontiers and pushing boundaries. " \
+                    "They thrive on excitement and are never afraid to take risks. Their high energy and enthusiasm make them natural leaders in innovative projects, " \
+                    "where their willingness to experiment and adapt is key. However, their tendency to be impulsive might sometimes lead to instability, so they benefit from grounding influences."
+            elif 2 < a <= 55 and e <= 0.2 and d <= 15:
+                return f"Based on a semi-major axis of {a:.2f} AU, low eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Steadfast Provider. " \
+                    "The Steadfast Provider is characterized by a moderate semi-major axis, low eccentricity, and moderate density. Its traits are: Reliable, practical, and nurturing. " \
+                    "Focuses on stability and providing a solid foundation for others. The Steadfast Provider is dependable and grounded, offering a sense of security to those around them. " \
+                    "They excel in roles that require consistency and practical support. Their nurturing nature makes them excellent in caregiving and mentoring roles, where their ability to create a stable environment is highly valued. " \
+                    "They prefer structured routines and find comfort in predictability."
+            elif p > 2500 and d > 15 and e > 0.5:
+                return f"Based on an orbital period of {p:.2f} days, high density of {d:.2f} g/cm³, and moderate eccentricity of {e:.2f}, your exoplanet archetype is The Reflective Thinker. " \
+                    "The Reflective Thinker is characterized by long orbital periods, high density, and moderate eccentricity. Its traits are: Introspective, patient, and analytical. " \
+                    "Prefers deep reflection and thoughtful consideration in decision-making. The Reflective Thinker is known for their deep introspection and methodical approach to problems. " \
+                    "They take their time to analyze situations thoroughly and are not easily swayed by hasty decisions. Their patience and ability to see the bigger picture make them valuable in roles that require careful consideration and strategic planning. " \
+                    "They may struggle with indecision but excel in tasks that demand thoroughness."
+            elif a <= 15 and e > 0.25 and d <= 20:
+                return f"Based on a semi-major axis of {a:.2f} AU, moderate to high eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Charismatic Leader. " \
+                    "The Charismatic Leader is characterized by being close to the star, with moderate to high eccentricity and low to moderate density. Its traits are: Confident, influential, and energetic. " \
+                    "Natural at inspiring and guiding others. The Charismatic Leader exudes confidence and charm, effortlessly motivating and leading those around them. " \
+                    "Their energetic presence and ability to connect with others make them exceptional at rallying people towards common goals. They thrive in high-pressure environments and are often at the forefront of change. " \
+                    "However, their strong personality might sometimes overshadow quieter team members."
+            elif 0.5 < a <= 30 and 0.1 < e <= 0.46 and 100 < p <= 3500:
+                return f"Based on a semi-major axis of {a:.2f} AU, moderate eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Adaptable Strategist. " \
+                    "The Adaptable Strategist is characterized by a moderate to far semi-major axis, moderate eccentricity, and moderate density. Its traits are: Flexible, resourceful, and strategic. " \
+                    "Balances long-term planning with the ability to adapt to changing circumstances. The Adaptable Strategist is a master of balancing foresight with flexibility. " \
+                    "They excel in roles that require both long-term planning and the ability to pivot when necessary. Their resourcefulness and strategic mindset make them adept at navigating complex situations and adapting strategies to meet evolving needs. " \
+                    "They are valuable in dynamic environments where adaptability is key."
+            elif p <= 1000 and e <= 0.1 and d <= 5:
+                return f"Based on an orbital period of {p:.2f} days, low eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Enthusiastic Explorer. " \
+                    "The Enthusiastic Explorer is characterized by short orbital periods, low eccentricity, and low density. Its traits are: Curious, spirited, and eager to discover new experiences. " \
+                    "Embraces new ideas with enthusiasm. The Enthusiastic Explorer is driven by a passion for discovery and new experiences. Their curiosity and spirited nature make them excellent at exploring new ideas and opportunities. " \
+                    "They thrive in environments that offer variety and novelty, where their enthusiasm can lead to innovative solutions. Their boundless energy can sometimes lead to scattered focus, but their zest for life is infectious."
+            elif 0 < a <= 75 and d > 2 and e <= 0.3:
+                return f"Based on a semi-major axis of {a:.2f} AU, low eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Insightful Analyst. " \
+                    "The Insightful Analyst is characterized by a moderate semi-major axis, low eccentricity, and high density. Its traits are: Detail-oriented, methodical, and perceptive. " \
+                    "Focuses on understanding and solving complex problems. The Insightful Analyst is meticulous and perceptive, with a keen eye for detail. " \
+                    "They excel in roles that require deep analysis and problem-solving. Their methodical approach ensures thorough understanding and accurate solutions to complex issues. " \
+                    "They may prefer solitary work or small teams where they can focus on intricate tasks without distractions."
+            elif p > 400 and d <= 30 and e > 0.25:
+                return f"Based on an orbital period of {p:.2f} days, high eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Creative Visionary. " \
+                    "The Creative Visionary is characterized by long orbital periods, high eccentricity, and low density. Its traits are: Imaginative, innovative, and open-minded. " \
+                    "Draws inspiration from unconventional sources and new perspectives. The Creative Visionary is a forward-thinker with a strong sense of imagination and innovation. " \
+                    "They thrive on exploring new ideas and unconventional approaches, drawing inspiration from a variety of sources. Their ability to think outside the box makes them excellent in creative and strategic roles. " \
+                    "They may sometimes struggle with practical implementation but excel in ideation and conceptualization."
+            elif 0.1 < a <= 60 and 0.001 < p <= 5000 and 0.0009 < e <= 0.76:
+                return f"Based on a semi-major axis of {a:.2f} AU, moderate eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Practical Guardian. " \
+                    "The Practical Guardian is characterized by a moderate semi-major axis, moderate eccentricity, and moderate density. Its traits are: Dependable, balanced, and protective. " \
+                    "Provides support and ensures stability in various aspects of life. The Practical Guardian is characterized by their balanced approach to life and their protective nature. " \
+                    "They are dependable and provide solid support in various situations, ensuring stability and security. Their ability to manage practical concerns and maintain equilibrium makes them reliable in both personal and professional roles. " \
+                    "They prefer a steady and predictable environment where they can offer support and guidance."
+            elif a > 1 and d > 0.8 and e <= 0.83:
+                return f"Based on a semi-major axis of {a:.2f} AU, low eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Resilient Leader. " \
+                    "The Resilient Leader is characterized by being far from the star, with low eccentricity and high density. Its traits are: Strong, determined, and steady. " \
+                    "Handles challenges with endurance and unwavering resolve. The Resilient Leader is marked by their strength and determination, facing challenges with a steady and unyielding resolve. " \
+                    "Their endurance and reliability make them natural leaders in difficult situations. They are skilled at maintaining focus and stability, even in adverse conditions. " \
+                    "Their ability to persevere and provide strong leadership is highly valued in high-stakes scenarios."
+            elif a <= 25 and p > 7 and e > 0.08:
+                return f"Based on a semi-major axis of {a:.2f} AU, high eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Inspiring Mentor. " \
+                    "The Inspiring Mentor is characterized by being close to the star, with high eccentricity and moderate to high density. Its traits are: Motivational, supportive, and knowledgeable. " \
+                    "Guides others with wisdom and encouragement. The Inspiring Mentor is a source of wisdom and motivation, providing guidance and encouragement to those around them. " \
+                    "Their supportive nature and extensive knowledge make them excellent at mentoring and teaching. They thrive in roles where they can share their insights and help others grow. " \
+                    "Their ability to inspire and uplift others makes them a valued advisor and leader."
+            else:
+                return f"Based on a semi-major axis of {a:.2f} AU, moderate eccentricity of {e:.2f}, and a density of {d:.2f} g/cm³, your exoplanet archetype is The Balanced Mediator. " \
+                    "The Balanced Mediator is characterized by a moderate semi-major axis, moderate eccentricity, and moderate density. Its traits are: Fair-minded, diplomatic, and adaptable. " \
+                    "Skilled at finding common ground and resolving conflicts. The Balanced Mediator excels in diplomacy and conflict resolution, with a fair-minded and adaptable approach. " \
+                    "They are adept at finding common ground and resolving disputes, making them valuable in roles that require negotiation and compromise. " \
+                    "Their ability to remain impartial and balanced helps maintain harmony and foster positive relationships. They are skilled at managing diverse perspectives and creating consensus."
+        archetype = categorize_exoplanet(self.semimajor, self.period, self.density, self.eccentricity)
+        return archetype
